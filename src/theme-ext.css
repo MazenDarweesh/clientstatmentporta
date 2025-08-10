@@ -1,0 +1,50 @@
+@layer base {
+  :root {
+    /* Additional design tokens for brand and effects (HSL only) */
+    --brand: 221 83% 53%;
+    --brand-foreground: 210 40% 98%;
+
+    --success: 142 70% 45%;
+    --success-foreground: 144 70% 10%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 20 15% 15%;
+
+    --shadow-soft: 0 20px 60px -20px hsl(var(--brand) / 0.25);
+    --shadow-card: 0 10px 30px -15px hsl(222 20% 30% / 0.25);
+
+    --glow-1: 214 95% 93%;
+    --glow-2: 186 71% 92%;
+    --glow-3: 258 88% 94%;
+  }
+
+  .dark {
+    --brand: 224 76% 48%;
+    --brand-foreground: 0 0% 100%;
+
+    --success: 142 76% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 60%;
+    --warning-foreground: 0 0% 10%;
+
+    --shadow-soft: 0 20px 60px -20px hsl(var(--brand) / 0.35);
+    --shadow-card: 0 10px 30px -15px hsl(222 20% 10% / 0.55);
+
+    --glow-1: 224 64% 14%;
+    --glow-2: 202 64% 14%;
+    --glow-3: 266 64% 14%;
+  }
+}
+
+@layer utilities {
+  .bg-soft-glow {
+    background:
+      radial-gradient(600px 300px at 10% 15%, hsl(var(--glow-1) / 0.7), transparent 60%),
+      radial-gradient(500px 280px at 35% 5%, hsl(var(--glow-3) / 0.6), transparent 60%),
+      radial-gradient(520px 300px at 25% 30%, hsl(var(--glow-2) / 0.6), transparent 60%);
+  }
+  .card-elevated {
+    box-shadow: var(--shadow-card);
+  }
+}

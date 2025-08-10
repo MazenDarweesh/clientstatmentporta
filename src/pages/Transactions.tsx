@@ -1,8 +1,9 @@
 import { useContext, useMemo } from 'react'
 import { LanguageContext, i18n } from '@/i18n'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
+import AppHeader from '@/components/AppHeader'
+import AppFooter from '@/components/AppFooter'
 import BackgroundGlow from '@/components/BackgroundGlow'
-import { Bookmark, ArrowDownRight, ArrowUpRight } from 'lucide-react'
+import { Bookmark, ArrowDownRight, ArrowUpRight, CalendarDays, FileText } from 'lucide-react'
 
 interface Txn {
   date: string
@@ -42,7 +43,7 @@ export default function Transactions() {
   return (
     <main className="relative min-h-screen overflow-hidden">
       <BackgroundGlow />
-      <LanguageSwitcher />
+      <AppHeader />
       <div className="container py-8 space-y-6">
         <h1 className="text-2xl font-semibold text-center">{t.transactions}</h1>
 
@@ -76,7 +77,8 @@ export default function Transactions() {
           </div>
         </section>
 
-        <section className="max-w-5xl mx-auto overflow-x-auto rounded-2xl border bg-card card-elevated">
+        {/* Table on md+ */}
+        <section className="hidden md:block max-w-5xl mx-auto overflow-x-auto rounded-2xl border bg-card card-elevated">
           <table className="min-w-full text-sm">
             <thead className="bg-secondary/60">
               <tr className="text-muted-foreground">
@@ -110,7 +112,53 @@ export default function Transactions() {
             </tbody>
           </table>
         </section>
+
+        {/* Mobile list */}
+        <section className="md:hidden max-w-5xl mx-auto space-y-3">
+          {sample.reduce<{ items: JSX.Element[]; run: number }>((acc, x, idx) => {
+            const delta = (x.credit || 0) - (x.debit || 0)
+            const run = (acc.run || 0) + delta
+            const date = new Date(x.date)
+            const formattedDate = new Intl.DateTimeFormat(lang === 'ar' ? 'ar-EG' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(date)
+            acc.items.push(
+              <article key={idx} className="rounded-xl border bg-card p-4 card-elevated">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <CalendarDays className="size-4" />
+                      <span>{formattedDate}</span>
+                    </div>
+                    <div className="mt-1 font-medium flex items-center gap-2">
+                      <FileText className="size-4 text-muted-foreground" />
+                      <span>{x.note}</span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    {x.debit && (
+                      <div className="flex items-center gap-1 text-destructive">
+                        <ArrowDownRight className="size-4" />
+                        <span>{formatCurrency(x.debit, lang)} {t.currency}</span>
+                      </div>
+                    )}
+                    {x.credit && (
+                      <div className="flex items-center gap-1 text-success">
+                        <ArrowUpRight className="size-4" />
+                        <span>{formatCurrency(x.credit, lang)} {t.currency}</span>
+                      </div>
+                    )}
+                    <div className="mt-1 text-xs text-muted-foreground">
+                      {t.runningBalance}: {formatCurrency(run, lang)} {t.currency}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            )
+            acc.run = run
+            return acc
+          }, { items: [], run: 0 }).items}
+        </section>
       </div>
+      <AppFooter />
     </main>
   )
 }

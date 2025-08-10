@@ -1,9 +1,10 @@
 import { useContext, useMemo } from 'react'
 import { i18n, LanguageContext } from '@/i18n'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
+import AppHeader from '@/components/AppHeader'
+import AppFooter from '@/components/AppFooter'
 import BackgroundGlow from '@/components/BackgroundGlow'
 import { Button } from '@/components/ui/button'
-import { Home } from 'lucide-react'
+import { Home, CreditCard, Landmark, Smartphone, Wallet, Banknote, ShieldCheck } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const BalanceCard: React.FC<{ name: string; balance: number }> = ({ name, balance }) => {
@@ -42,12 +43,14 @@ const BalanceCard: React.FC<{ name: string; balance: number }> = ({ name, balanc
 }
 
 const PaymentRow = () => (
-  <div className="mt-8 flex items-center justify-center gap-3 text-xs text-muted-foreground">
-    <span className="px-2 py-1 rounded-md bg-secondary">VISA</span>
-    <span className="px-2 py-1 rounded-md bg-secondary">Mastercard</span>
-    <span className="px-2 py-1 rounded-md bg-secondary">Meeza</span>
-    <span className="px-2 py-1 rounded-md bg-secondary">Fawry</span>
-    <span className="px-2 py-1 rounded-md bg-secondary">ValU</span>
+  <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary"><CreditCard className="size-3" /> VISA</span>
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary"><CreditCard className="size-3" /> Mastercard</span>
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary"><Banknote className="size-3" /> Meeza</span>
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary"><Smartphone className="size-3" /> Fawry</span>
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary"><ShieldCheck className="size-3" /> ValU</span>
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary"><Landmark className="size-3" /> Bank</span>
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary"><Wallet className="size-3" /> Wallet</span>
   </div>
 )
 
@@ -61,12 +64,13 @@ export default function Index() {
   return (
     <main className="relative min-h-screen overflow-hidden">
       <BackgroundGlow />
-      <LanguageSwitcher />
+      <AppHeader />
       <div className="container pb-16 pt-6">
-        <h1 className="sr-only">{t.appName}</h1>
+        <h1 className="sr-only">{t.appName} - Dynamic Pro</h1>
         <BalanceCard name={lang === 'ar' ? 'ابوالحسن والحسين' : 'Abou Alhassan & Alhussain'} balance={6013.25} />
         <PaymentRow />
       </div>
+      <AppFooter />
     </main>
   )
 }

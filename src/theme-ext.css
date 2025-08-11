@@ -5,14 +5,26 @@
 @layer base {
   :root {
     /* Additional design tokens for brand and effects (HSL only) */
-    --brand: 221 83% 53%;
-    --brand-foreground: 210 40% 98%;
+    /* Brand palette tuned to soft purple (#7B61FF) */
+    --brand: 252 100% 69%;
+    --brand-foreground: 0 0% 100%;
 
-    --success: 142 70% 45%;
-    --success-foreground: 144 70% 10%;
+    /* Success and error aligned to spec (#27AE60, #E74C3C) */
+    --success: 145 63% 41%;
+    --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
     --warning-foreground: 20 15% 15%;
+
+    /* Override destructive (soft red) for debit */
+    --destructive: 6 78% 57%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Glass + gradient helpers */
+    --surface: 0 0% 100%;
+    --glass-border: 0 0% 100%;
+    --bg-start: 220 100% 99%; /* ~#F8FAFF */
+    --bg-end: 225 40% 95%;   /* ~#EEF1F8 */
 
     --shadow-soft: 0 20px 60px -20px hsl(var(--brand) / 0.25);
     --shadow-card: 0 10px 30px -15px hsl(222 20% 30% / 0.25);
@@ -41,6 +53,13 @@
   }
 }
 
+@layer base {
+  body {
+    /* Light-mode only gradient background */
+    background: linear-gradient(180deg, hsl(var(--bg-start)), hsl(var(--bg-end)));
+  }
+}
+
 @layer utilities {
   .bg-soft-glow {
     background:
@@ -51,4 +70,21 @@
   .card-elevated {
     box-shadow: var(--shadow-card);
   }
+  .glass-panel {
+    background-color: hsl(var(--surface) / 0.75);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--glass-border) / 0.3);
+    box-shadow: var(--shadow-card);
+  }
+  .hover-glass {
+    transition: var(--transition-smooth, all 0.3s ease);
+  }
+  .hover-glass:hover {
+    background-color: hsl(var(--surface) / 0.85);
+  }
+  .bg-soft-gradient {
+    background: linear-gradient(180deg, hsl(var(--bg-start)), hsl(var(--bg-end)));
+  }
 }
+

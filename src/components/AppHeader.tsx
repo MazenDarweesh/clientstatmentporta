@@ -1,7 +1,8 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useContext } from 'react'
 import { LanguageContext } from '@/i18n'
-import { Home, ListOrdered, Languages } from 'lucide-react'
+import { Home, ListOrdered, Languages, Info } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 const logoSrc = "/lovable-uploads/61854de0-5d50-4e0f-ac06-21db335de547.png"
 
@@ -42,6 +43,13 @@ export default function AppHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Button asChild variant="hero" size="sm" className="hover-scale" aria-label={lang === 'ar' ? 'تعرف علينا - صفحة من نحن' : 'About us - Learn more'}>
+            <a href="https://egydynamic.com/about-us/" target="_blank" rel="noopener noreferrer">
+              <Info className="size-4" />
+              <span className="hidden sm:inline">{lang === 'ar' ? 'تعرف علينا' : 'About us'}</span>
+              <span className="sm:hidden">{lang === 'ar' ? 'تعرف' : 'About'}</span>
+            </a>
+          </Button>
           <button
             type="button"
             aria-label={lang === 'ar' ? 'التبديل إلى الإنجليزية' : 'Switch to Arabic'}
